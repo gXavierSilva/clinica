@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda - ClinicSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div x-data="agendaPage()" class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside 
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 flex flex-col">
+            
+            <!-- Logo -->
+            <div class="flex items-center justify-center px-6 py-4 h-20 border-b border-gray-700">
+                <a href="dashboard.html" class="text-2xl font-bold">
+                    Clinic<span class="text-teal-400">Soft</span>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="dashboard.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="agendadash.html" class="flex items-center px-4 py-2 text-gray-100 bg-gray-700 rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Agenda</span>
+                </a>
+                <a href="pacientes.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span>Pacientes</span>
+                </a>
+                <a href="financeiro.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2v1m0 0v1m-3.333-2.333C8.173 7.062 7.5 8.428 7.5 10c0 1.572.673 2.938 1.667 3.667m6.666 0c.994-.729 1.667-2.095 1.667-3.667 0-1.572-.673-2.938-1.667-3.667M12 12h.01"></path></svg>
+                    <span>Financeiro</span>
+                </a>
+                 <a href="relatorios.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Relatórios</span>
+                </a>
+                <a href="marketing.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>Marketing</span>
+                </a>
+                <a href="ajuda.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0l-3.536 3.536M14.828 9.172l-3.536-3.536m3.536 3.536l3.536 3.536M12 21a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                    <span>Ajuda</span>
+                </a>
+                <a href="configuracao.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-teal-500">
+                <div class="flex items-center">
+                    <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none md:hidden">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h2 class="text-2xl font-semibold text-gray-800">Agenda</h2>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button @click="openModal()" class="bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-300 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        Novo Agendamento
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 overflow-y-auto p-4">
+                <div class="container mx-auto">
+                    <!-- Agenda Controls -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                            <button @click="prevWeek()" class="p-2 rounded-full hover:bg-gray-200" aria-label="Semana Anterior">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <h3 class="text-xl font-semibold text-gray-700" x-text="getCurrentWeek()"></h3>
+                            <button @click="nextWeek()" class="p-2 rounded-full hover:bg-gray-200" aria-label="Próxima Semana">
+                                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div>
+                                <label for="professional-filter" class="sr-only">Filtrar por Profissional</label>
+                                <select x-model="selectedProfessional" id="professional-filter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md">
+                                    <option value="todos">Todos Profissionais</option>
+                                    <template x-for="prof in professionals" :key="prof">
+                                        <option :value="prof" x-text="prof"></option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="flex items-center border border-gray-300 rounded-md">
+                                <button class="px-4 py-2 text-sm font-medium text-gray-700 border-r">Dia</button>
+                                <button class="px-4 py-2 text-sm font-medium text-white bg-teal-500">Semana</button>
+                                <button class="px-4 py-2 text-sm font-medium text-gray-700 border-l">Mês</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Agenda Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-8 -mx-px">
+                        <!-- Time Column -->
+                        <div class="col-span-1 hidden md:block">
+                            <div class="h-16"></div>
+                            <template x-for="hour in hours" :key="hour">
+                                <div class="h-20 text-right pr-2 text-sm text-gray-500 border-t border-r flex items-center justify-end" x-text="hour + ':00'"></div>
+                            </template>
+                        </div>
+                        <!-- Days -->
+                        <div class="col-span-1 md:col-span-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7">
+                            <template x-for="(day, dayIndex) in weekDays" :key="dayIndex">
+                                <div class="border-r border-b md:border-b-0">
+                                    <div class="text-center py-3 border-b font-semibold" x-text="day.name + ' ' + day.date.getDate()"></div>
+                                    <div class="h-full p-1 space-y-1">
+                                        <template x-for="appointment in getAppointmentsForDay(day.date)">
+                                            <div :class="appointment.color" class="text-white p-2 rounded-lg text-xs cursor-pointer hover:opacity-80">
+                                                <p class="font-bold" x-text="appointment.patientName"></p>
+                                                <p x-text="appointment.time"></p>
+                                                <p class="text-white/70 truncate" x-text="appointment.professional"></p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modal -->
+        <div x-show="isModalOpen" x-cloak class="fixed inset-0 z-40 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="isModalOpen = false" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900" id="modal-title">Novo Agendamento</h3>
+                        <form @submit.prevent="addAppointment()" class="mt-4 space-y-4">
+                            <div>
+                                <label for="paciente-nome" class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
+                                <input type="text" x-model="newAppointment.patientName" id="paciente-nome" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="paciente-cpf" class="block text-sm font-medium text-gray-700">CPF <span class="text-red-500">*</span></label>
+                                    <input type="text" x-model="newAppointment.cpf" id="paciente-cpf" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="paciente-nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento <span class="text-red-500">*</span></label>
+                                    <input type="date" x-model="newAppointment.dob" id="paciente-nascimento" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="consulta-data" class="block text-sm font-medium text-gray-700">Data da Consulta</label>
+                                    <input type="date" x-model="newAppointment.date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="consulta-horario" class="block text-sm font-medium text-gray-700">Horário</label>
+                                    <input type="time" x-model="newAppointment.time" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="professional-select" class="block text-sm font-medium text-gray-700">Profissional</label>
+                                <select x-model="newAppointment.professional" id="professional-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md">
+                                    <template x-for="prof in professionals" :key="prof">
+                                        <option :value="prof" x-text="prof"></option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div x-data="{ files: [] }">
+                                <label class="block text-sm font-medium text-gray-700">Prontuários ou Imagens (PDF, JPG, PNG)</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                                                <span>Carregar ficheiros</span>
+                                                <input id="file-upload" name="file-upload" type="file" class="sr-only" multiple accept=".pdf,.jpg,.jpeg,.png" @change="files = [...$event.target.files]">
+                                            </label>
+                                            <p class="pl-1">ou arraste e solte</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-xs text-gray-500" x-show="files.length > 0" x-cloak>
+                                    <p>Ficheiros selecionados:</p>
+                                    <template x-for="file in files" :key="file.name">
+                                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2" x-text="file.name"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="button" @click="addAppointment()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Salvar Agendamento
+                        </button>
+                        <button type="button" @click="isModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function agendaPage() {
+            return {
+                sidebarOpen: false,
+                isModalOpen: false,
+                currentDate: new Date('2025-07-03'),
+                weekDays: [],
+                hours: Array.from({length: 9}, (_, i) => i + 9), // 9:00 to 17:00
+                professionals: ['Dr. Ricardo Mendes', 'Dra. Ana Paula'],
+                selectedProfessional: 'todos',
+                appointments: [],
+                newAppointment: { patientName: '', cpf: '', dob: '', date: '', time: '', professional: 'Dr. Ricardo Mendes', color: 'bg-teal-500' },
+                init() {
+                    this.generateWeekDays();
+                    this.loadAppointments();
+                    const patientIdToSchedule = localStorage.getItem('schedule_patient_id');
+                    if (patientIdToSchedule) {
+                        const allPatients = JSON.parse(localStorage.getItem('clinicsoft_patients') || '[]');
+                        const patient = allPatients.find(p => p.id == patientIdToSchedule);
+                        if (patient) {
+                            this.newAppointment.patientName = patient.name;
+                            this.newAppointment.cpf = patient.cpf;
+                            this.newAppointment.dob = patient.dob;
+                        }
+                        this.isModalOpen = true;
+                        localStorage.removeItem('schedule_patient_id');
+                    }
+                },
+                generateWeekDays() {
+                    const week = [];
+                    let current = new Date(this.currentDate);
+                    const dayOfWeek = current.getDay();
+                    const diff = current.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is sunday
+                    current = new Date(current.setDate(diff));
+
+                    for (let i = 0; i < 7; i++) {
+                        week.push({
+                            name: new Date(current).toLocaleDateString('pt-BR', { weekday: 'short' }),
+                            date: new Date(current)
+                        });
+                        current.setDate(current.getDate() + 1);
+                    }
+                    this.weekDays = week;
+                },
+                prevWeek() {
+                    this.currentDate.setDate(this.currentDate.getDate() - 7);
+                    this.generateWeekDays();
+                },
+                nextWeek() {
+                    this.currentDate.setDate(this.currentDate.getDate() + 7);
+                    this.generateWeekDays();
+                },
+                getCurrentWeek() {
+                    const start = this.weekDays[0].date;
+                    const end = this.weekDays[6].date;
+                    return `${start.toLocaleDateString('pt-BR')} - ${end.toLocaleDateString('pt-BR')}`;
+                },
+                loadAppointments() {
+                    const saved = localStorage.getItem('clinicsoft_appointments');
+                    this.appointments = saved ? JSON.parse(saved) : [
+                        { id: 1, patientName: 'Ana Silva', date: '2025-07-01', time: '09:00', professional: 'Dr. Ricardo Mendes', color: 'bg-teal-500' },
+                        { id: 2, patientName: 'João Costa', date: '2025-07-02', time: '11:00', professional: 'Dra. Ana Paula', color: 'bg-orange-500' },
+                    ];
+                },
+                saveAppointments() {
+                    localStorage.setItem('clinicsoft_appointments', JSON.stringify(this.appointments));
+                },
+                getAppointmentsForDay(date) {
+                    const dateString = date.toISOString().split('T')[0];
+                    return this.appointments.filter(a => {
+                        const dateMatch = a.date === dateString;
+                        const profMatch = (this.selectedProfessional === 'todos' || a.professional === this.selectedProfessional);
+                        return dateMatch && profMatch;
+                    });
+                },
+                openModal() {
+                    this.newAppointment = { patientName: '', cpf: '', dob: '', date: '', time: '', professional: this.professionals[0], color: 'bg-teal-500' };
+                    this.isModalOpen = true;
+                },
+                addAppointment() {
+                    if (this.newAppointment.patientName && this.newAppointment.cpf && this.newAppointment.dob && this.newAppointment.date && this.newAppointment.time) {
+                        this.appointments.push({ id: Date.now(), ...this.newAppointment });
+                        this.saveAppointments();
+                        this.isModalOpen = false;
+                    } else {
+                        alert('Por favor, preencha todos os campos obrigatórios.');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

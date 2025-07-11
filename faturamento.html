@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faturamento - ClinicSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="areadeagendamento.html" class="text-2xl font-bold text-gray-800">
+                    Clinic<span class="text-teal-600">Soft</span>
+                </a>
+                <!-- Back to Home Link -->
+                <a href="areadeagendamento.html" class="font-medium text-teal-600 hover:text-teal-500">
+                    &larr; Voltar para o Início
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-white pt-16 pb-12">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight mb-4">
+                    Controle Financeiro <span class="text-teal-600">Total para sua Clínica</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Do faturamento de convênios ao fluxo de caixa diário, nossa plataforma simplifica a gestão financeira para que você possa focar no que mais importa: seus pacientes.
+                </p>
+            </div>
+        </section>
+
+        <!-- Billing Mockup Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl p-4 sm:p-6 border">
+                    <div class="flex flex-col">
+                        <!-- Billing Header -->
+                        <div class="flex items-center justify-between pb-4 border-b mb-4">
+                            <h2 class="text-xl font-bold text-gray-700">Painel Financeiro</h2>
+                            <input type="month" value="2025-07" class="border-gray-300 rounded-md shadow-sm focus:border-teal-300 focus:ring focus:ring-teal-200 focus:ring-opacity-50">
+                        </div>
+                        
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div class="p-5 bg-green-100 rounded-lg">
+                                <p class="text-sm font-medium text-green-800">Faturamento do Mês</p>
+                                <p class="text-3xl font-bold text-green-800 mt-1">R$ 25.400,00</p>
+                            </div>
+                            <div class="p-5 bg-orange-100 rounded-lg">
+                                <p class="text-sm font-medium text-orange-800">Contas a Receber</p>
+                                <p class="text-3xl font-bold text-orange-800 mt-1">R$ 8.250,00</p>
+                            </div>
+                            <div class="p-5 bg-red-100 rounded-lg">
+                                <p class="text-sm font-medium text-red-800">Despesas do Mês</p>
+                                <p class="text-3xl font-bold text-red-800 mt-1">R$ 12.100,00</p>
+                            </div>
+                        </div>
+
+                        <!-- Recent Transactions -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Transações Recentes</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="text-xs text-gray-500 uppercase bg-gray-50">
+                                            <th class="py-3 px-4">Data</th>
+                                            <th class="py-3 px-4">Descrição</th>
+                                            <th class="py-3 px-4">Convênio</th>
+                                            <th class="py-3 px-4">Valor</th>
+                                            <th class="py-3 px-4">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-gray-600">
+                                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                            <td class="py-3 px-4">02/07/2025</td>
+                                            <td class="py-3 px-4">Consulta - Ana Clara Silva</td>
+                                            <td class="py-3 px-4">Unimed</td>
+                                            <td class="py-3 px-4 text-green-600 font-medium">+ R$ 250,00</td>
+                                            <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Recebido</span></td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                            <td class="py-3 px-4">01/07/2025</td>
+                                            <td class="py-3 px-4">Aluguel do Consultório</td>
+                                            <td class="py-3 px-4">-</td>
+                                            <td class="py-3 px-4 text-red-600 font-medium">- R$ 4.500,00</td>
+                                            <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Pago</span></td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                            <td class="py-3 px-4">01/07/2025</td>
+                                            <td class="py-3 px-4">Lote TISS #1234</td>
+                                            <td class="py-3 px-4">Bradesco Saúde</td>
+                                            <td class="py-3 px-4 text-blue-600 font-medium">R$ 3.800,00</td>
+                                            <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">Enviado</span></td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="py-3 px-4">30/06/2025</td>
+                                            <td class="py-3 px-4">Consulta - Carlos Ferreira</td>
+                                            <td class="py-3 px-4">Particular</td>
+                                            <td class="py-3 px-4 text-orange-600 font-medium">R$ 300,00</td>
+                                            <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-200 rounded-full">Aguardando</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Explanation Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Finanças Organizadas, Decisões Inteligentes.</h2>
+                    <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">Nossas ferramentas financeiras automatizam tarefas repetitivas e fornecem a clareza que você precisa para gerir sua clínica com confiança.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-6 bg-gray-50 rounded-lg text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-600 mb-4 mx-auto">
+                           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Faturamento TISS Simplificado</h3>
+                        <p class="text-gray-600">Gere guias no padrão TISS automaticamente a partir dos atendimentos. Reduza glosas e acelere o recebimento dos convênios.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-600 mb-4 mx-auto">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Controle de Fluxo de Caixa</h3>
+                        <p class="text-gray-600">Acompanhe todas as entradas e saídas em tempo real. Tenha uma visão clara da saúde financeira da sua clínica a qualquer momento.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg text-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-600 mb-4 mx-auto">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Relatórios Automáticos</h3>
+                        <p class="text-gray-600">Gere relatórios de faturamento, despesas, repasses médicos e muito mais com apenas um clique. Tome decisões baseadas em dados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p>&copy; 2025 ClinicSoft. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

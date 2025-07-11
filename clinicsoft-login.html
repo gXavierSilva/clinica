@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ClinicSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #00A99D, #007A72);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="flex min-h-screen items-center justify-center bg-gray-100">
+        <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg">
+            
+            <!-- Header -->
+            <div class="text-center">
+                <a href="areadeagendamento.html" class="inline-block text-3xl font-bold text-gray-800">
+                    Clinic<span class="text-teal-600">Soft</span>
+                </a>
+                <h2 class="mt-4 text-2xl font-bold text-gray-900">
+                    Acesse sua conta
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Bem-vindo de volta! Por favor, insira seus dados.
+                </p>
+            </div>
+
+            <!-- Login Form -->
+            <form class="mt-8 space-y-6" action="dashboard.html" method="GET">
+                <input type="hidden" name="remember" value="true">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="email-address" class="sr-only">Endereço de e-mail</label>
+                        <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm" placeholder="Endereço de e-mail">
+                    </div>
+                    <div>
+                        <label for="password" class="sr-only">Senha</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm" placeholder="Senha">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                            Lembrar-me
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="recuperação.html" class="font-medium text-teal-600 hover:text-teal-500">
+                            Esqueceu a senha?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                        Entrar
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Footer Link -->
+            <p class="mt-6 text-center text-sm text-gray-600">
+                Não tem uma conta?
+                <a href="cadastro.html" class="font-medium text-teal-600 hover:text-teal-500">
+                    Crie uma agora
+                </a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

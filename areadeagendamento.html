@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinicSoft - Software de Gestão para Clínicas</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            scroll-behavior: smooth;
+        }
+        .swoop-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,208C960,213,1056,171,1152,154.7C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: cover;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #00A99D, #007A72);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="text-2xl font-bold text-gray-800">
+                    Clinic<span class="text-teal-600">Soft</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#features" class="text-gray-600 hover:text-teal-600 transition duration-300">Funcionalidades</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-teal-600 transition duration-300">Depoimentos</a>
+                    <a href="sobrenos.html" target="_blank" class="text-gray-600 hover:text-teal-600 transition duration-300">Sobre Nós</a>
+                    <a href="https://api.whatsapp.com/send/?phone=5588992126236&text=Olá%2C+eu+vim+pelo+site%2C+gostaria+de+saber+sobre+planos+e+assinatura%3F&type=phone_number&app_absent=0" class="text-gray-600 hover:text-teal-600 transition duration-300">Contato</a>
+                </nav>
+
+                <!-- Desktop CTA -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="clinicsoft-login.html" target="_blank" class="flex items-center text-gray-600 hover:text-teal-600 font-semibold transition duration-300">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Área Cliente</span>
+                    </a>
+                    <a href="cadastro.html" target="_blank" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-lg transition duration-300 shadow-sm">
+                        Crie sua conta
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-600 hover:text-teal-600 focus:outline-none" aria-label="Abrir menu">
+                        <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden mt-4" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2" style="display: none;">
+                <nav>
+                    <a href="#features" @click="mobileMenuOpen = false" class="block py-2 px-4 text-sm text-gray-600 hover:bg-teal-50 rounded-lg">Funcionalidades</a>
+                    <a href="#testimonials" @click="mobileMenuOpen = false" class="block py-2 px-4 text-sm text-gray-600 hover:bg-teal-50 rounded-lg">Depoimentos</a>
+                    <a href="clinicsoft-about.html" target="_blank" @click="mobileMenuOpen = false" class="block py-2 px-4 text-sm text-gray-600 hover:bg-teal-50 rounded-lg">Sobre Nós</a>
+                    <a href="#cta" @click="mobileMenuOpen = false" class="block py-2 px-4 text-sm text-gray-600 hover:bg-teal-50 rounded-lg">Contato</a>
+                    <a href="clinicsoft-login.html" target="_blank" @click="mobileMenuOpen = false" class="flex items-center py-2 px-4 text-sm text-gray-600 hover:bg-teal-50 rounded-lg">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Área Cliente</span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="cadastro.html" target="_blank" @click="mobileMenuOpen = false" class="block w-full text-center bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-lg transition duration-300 shadow-sm">
+                            Crie sua conta
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-white pt-16 pb-32 swoop-bg">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 leading-tight mb-4">
+                    O software médico que <span class="gradient-text">transforma</span> a sua clínica
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                    Gestão completa, da agenda ao faturamento. Simplifique processos, fidelize pacientes e impulsione o crescimento do seu negócio.
+                </p>
+                <div class="flex justify-center items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="https://api.whatsapp.com/send/?phone=5588992126236&text=Olá%2C+eu+vim+pelo+site%2C+gostaria+de+saber+sobre+planos+e+assinatura%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition duration-300 shadow-lg transform hover:scale-105">
+                        Agende uma Demonstração Gratuita
+                    </a>
+                    <a href="https://api.whatsapp.com/send/?phone=5588992126236&text=Olá%2C+eu+vim+pelo+site%2C+gostaria+de+saber+sobre+planos+e+assinatura%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-8 py-4 rounded-lg text-lg transition duration-300">
+                        Fale com um Consultor
+                    </a>
+                </div>
+                <div class="mt-16 max-w-5xl mx-auto p-2 sm:p-4 bg-white rounded-xl shadow-2xl border-4 border-white">
+                    <!-- Dashboard Mockup -->
+                    <div class="bg-gray-100 rounded-lg p-4 sm:p-6 h-[500px] flex flex-col">
+                        <!-- Dashboard Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-left">Dashboard</h2>
+                                <p class="text-sm text-gray-500 text-left">Bem-vindo, Dr. Ricardo!</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
+                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                </button>
+                                <img src="https://placehold.co/40x40/A0AEC0/FFFFFF?text=R" alt="Avatar do Doutor" class="w-10 h-10 rounded-full">
+                            </div>
+                        </div>
+                        <!-- Dashboard Grid -->
+                        <div class="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                            <!-- Main Panel (Chart) -->
+                            <div class="lg:col-span-2 bg-white p-4 rounded-lg shadow-md flex flex-col">
+                                <h3 class="font-bold text-gray-700 mb-2">Consultas da Semana</h3>
+                                <div class="flex-grow flex items-end space-x-2 sm:space-x-4 text-xs text-center">
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-200 rounded-t-md" style="height: 60%"></div><span class="mt-1">Seg</span></div>
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-400 rounded-t-md" style="height: 80%"></div><span class="mt-1">Ter</span></div>
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-200 rounded-t-md" style="height: 70%"></div><span class="mt-1">Qua</span></div>
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-400 rounded-t-md" style="height: 90%"></div><span class="mt-1">Qui</span></div>
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-200 rounded-t-md" style="height: 75%"></div><span class="mt-1">Sex</span></div>
+                                    <div class="flex-1 h-full flex flex-col justify-end"><div class="bg-teal-400 rounded-t-md" style="height: 40%"></div><span class="mt-1">Sáb</span></div>
+                                </div>
+                            </div>
+                            <!-- Side Panel (Patients) -->
+                            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col">
+                                <h3 class="font-bold text-gray-700 mb-3">Próximos Pacientes</h3>
+                                <div class="space-y-3 overflow-y-auto">
+                                    <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded-md">
+                                        <img src="https://placehold.co/32x32/FFC0CB/000000?text=A" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <p class="font-semibold text-sm">Ana Silva</p>
+                                            <p class="text-xs text-gray-500">14:00 - Retorno</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded-md">
+                                        <img src="https://placehold.co/32x32/ADD8E6/000000?text=J" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <p class="font-semibold text-sm">João Costa</p>
+                                            <p class="text-xs text-gray-500">14:30 - Primeira Consulta</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded-md">
+                                        <img src="https://placehold.co/32x32/90EE90/000000?text=M" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <p class="font-semibold text-sm">Maria Oliveira</p>
+                                            <p class="text-xs text-gray-500">15:00 - Exames</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted By Section -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h3 class="text-center text-gray-500 text-sm font-semibold uppercase tracking-wider mb-8">CONFIADO POR CENTENAS DE CLÍNICAS EM TODO O BRASIL</h3>
+                <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4">
+                    <img src="https://placehold.co/180x40/CBD5E0/A0AEC0?text=Clinica+Dr+Faustino" alt="Logo Clinica Dr Faustino" class="h-10 opacity-60 hover:opacity-100 transition duration-300" onerror="this.src='https://placehold.co/180x40'; this.onerror=null;">
+                    <img src="https://placehold.co/120x40/CBD5E0/A0AEC0?text=Dr+Aurelio" alt="Logo Dr Aurelio" class="h-10 opacity-60 hover:opacity-100 transition duration-300" onerror="this.src='https://placehold.co/120x40'; this.onerror=null;">
+                    <img src="https://placehold.co/160x40/CBD5E0/A0AEC0?text=Roberto+Picanço" alt="Logo Roberto Picanço" class="h-10 opacity-60 hover:opacity-100 transition duration-300" onerror="this.src='https://placehold.co/160x40'; this.onerror=null;">
+                    <img src="https://placehold.co/120x40/CBD5E0/A0AEC0?text=São+Carlos" alt="Logo São Carlos" class="h-10 opacity-60 hover:opacity-100 transition duration-300" onerror="this.src='https://placehold.co/120x40'; this.onerror=null;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Tudo que sua clínica precisa em um só lugar</h2>
+                    <p class="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">Nossas ferramentas foram desenhadas para otimizar cada etapa da jornada do seu paciente.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Feature Item 1 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Agenda Médica Inteligente</h3>
+                        <p class="text-gray-600">Organize agendamentos, bloqueios e encaixes com facilidade. Reduza faltas com lembretes automáticos via WhatsApp.</p>
+                    </div>
+                    <!-- Feature Item 2 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                           <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6M7 8h6"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Prontuário Eletrônico</h3>
+                        <p class="text-gray-600">Personalizável e seguro. Acesse o histórico completo dos seus pacientes de qualquer lugar, a qualquer hora.</p>
+                    </div>
+                    <!-- Feature Item 3 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Telemedicina Integrada</h3>
+                        <p class="text-gray-600">Realize consultas por vídeo com segurança e qualidade, com prontuário e prescrição eletrônica na mesma tela.</p>
+                    </div>
+                    <!-- Feature Item 4 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Gestão Financeira</h3>
+                        <p class="text-gray-600">Controle o fluxo de caixa, repasses, faturamento TISS e gestão de convênios de forma simples e automatizada.</p>
+                    </div>
+                    <!-- Feature Item 5 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Marketing Médico</h3>
+                        <p class="text-gray-600">Crie campanhas, gerencie a jornada do paciente e fortaleça sua presença online para atrair e fidelizar mais pacientes.</p>
+                    </div>
+                    <!-- Feature Item 6 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 mb-6">
+                            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Segurança de Dados</h3>
+                        <p class="text-gray-600">Em conformidade com a LGPD, garantimos a segurança dos seus dados com criptografia de ponta e servidores na nuvem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-20 bg-teal-700 text-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">O que nossos clientes dizem</h2>
+                    <p class="text-lg text-teal-100 mt-4 max-w-2xl mx-auto">A satisfação de quem usa o ClinicSoft no dia a dia.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-teal-600 p-8 rounded-xl shadow-lg">
+                        <p class="mb-6 italic">"O ClinicSoft revolucionou a gestão da minha clínica. A agenda online diminuiu o no-show em 30% e o prontuário eletrônico facilitou muito o atendimento."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/ffffff/38B2AC?text=D" alt="Foto do Dr. Carlos" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400">
+                            <div>
+                                <p class="font-bold">Dr. Carlos Andrade</p>
+                                <p class="text-sm text-teal-200">Cardiologista, Clínica Coração Saudável</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="bg-teal-600 p-8 rounded-xl shadow-lg">
+                        <p class="mb-6 italic">"A plataforma é muito intuitiva e o suporte é fantástico. A equipe está sempre pronta para ajudar. A gestão financeira ficou muito mais simples e transparente."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/ffffff/38B2AC?text=A" alt="Foto da Dra. Ana" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400">
+                            <div>
+                                <p class="font-bold">Dra. Ana Paula</p>
+                                <p class="text-sm text-teal-200">Dermatologista, Pele & Cia</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="bg-teal-600 p-8 rounded-xl shadow-lg">
+                        <p class="mb-6 italic">"Com a telemedicina integrada, consegui expandir meu atendimento para outras cidades. Uma ferramenta essencial nos dias de hoje. Recomendo fortemente!"</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/ffffff/38B2AC?text=M" alt="Foto do Dr. Marcos" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400">
+                            <div>
+                                <p class="font-bold">Dr. Marcos Lima</p>
+                                <p class="text-sm text-teal-200">Psiquiatra</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section id="cta" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800">Pronto para modernizar sua clínica?</h2>
+                <p class="text-lg text-gray-600 mt-4 mb-8 max-w-2xl mx-auto">Veja na prática como o ClinicSoft pode otimizar sua gestão e melhorar a experiência dos seus pacientes.</p>
+                <a href="https://api.whatsapp.com/send/?phone=5588992126236&text=Olá%2C+eu+vim+pelo+site%2C+gostaria+de+saber+sobre+planos+e+assinatura%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-10 py-4 rounded-lg text-xl transition duration-300 shadow-lg transform hover:scale-105 inline-block">
+                    Quero uma demonstração!
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center sm:text-left">
+                <!-- About -->
+                <div class="mb-6 lg:mb-0">
+                    <h3 class="text-xl font-bold mb-4">Clinic<span class="text-teal-400">Soft</span></h3>
+                    <p class="text-gray-400">O software de gestão que acompanha o crescimento da sua clínica.</p>
+                    <div class="flex justify-center sm:justify-start space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white" aria-label="Facebook"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white" aria-label="Instagram"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white" aria-label="LinkedIn"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    </div>
+                </div>
+                <!-- Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Soluções</h4>
+                    <ul class="space-y-2">
+                        <li><a href="medico.html" class="text-gray-400 hover:text-white">Agenda Médica</a></li>
+                        <li><a href="prontuario.html" class="text-gray-400 hover:text-white">Prontuário Eletrônico</a></li>
+                        <li><a href="telemedicina.html" class="text-gray-400 hover:text-white">Telemedicina</a></li>
+                        <li><a href="faturamento.html" class="text-gray-400 hover:text-white">Faturamento</a></li>
+                    </ul>
+                </div>
+                <!-- Company -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Empresa</h4>
+                    <ul class="space-y-2">
+                        <li><a href="sobrenos.html" class="text-gray-400 hover:text-white">Sobre Nós</a></li>
+                        <li><a href="imprensa.html" class="text-gray-400 hover:text-white">Imprensa</a></li>
+                        <li><a href="parceiro.html" class="text-gray-400 hover:text-white">Seja um Parceiro</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="servicos.html" class="text-gray-400 hover:text-white">Termos de Serviço</a></li>
+                        <li><a href="privacidade.html" class="text-gray-400 hover:text-white">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 ClinicSoft. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

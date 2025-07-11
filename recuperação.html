@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação - ClinicSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="flex min-h-screen items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg">
+            
+            <!-- Header -->
+            <div class="text-center">
+                <a href="clinicsoft-website.html" class="inline-block text-3xl font-bold text-gray-800">
+                    Clinic<span class="text-teal-600">Soft</span>
+                </a>
+                <h2 class="mt-4 text-2xl font-bold text-gray-900">
+                    Esqueceu a sua senha?
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Sem problemas. Insira o seu e-mail e enviaremos um link para redefinir a sua senha.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form class="mt-8 space-y-6" action="#" method="POST">
+                <div class="rounded-md shadow-sm">
+                    <div>
+                        <label for="email-address" class="sr-only">Endereço de e-mail</label>
+                        <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" placeholder="Endereço de e-mail">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                        Enviar Link de Recuperação
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Footer Link -->
+            <p class="mt-6 text-center text-sm text-gray-600">
+                <a href="clinicsoft-login.html" class="font-medium text-teal-600 hover:text-teal-500">
+                    &larr; Voltar para o login
+                </a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - ClinicSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚕️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div x-data="patientsPage()" class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside 
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 flex flex-col">
+            
+            <!-- Logo -->
+            <div class="flex items-center justify-center px-6 py-4 h-20 border-b border-gray-700">
+                <a href="dashboard.html" class="text-2xl font-bold">
+                    Clinic<span class="text-teal-400">Soft</span>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="dashboard.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="agendadash.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Agenda</span>
+                </a>
+                <a href="pacientes.html" class="flex items-center px-4 py-2 text-gray-100 bg-gray-700 rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span>Pacientes</span>
+                </a>
+                <a href="financeiro.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2v1m0 0v1m-3.333-2.333C8.173 7.062 7.5 8.428 7.5 10c0 1.572.673 2.938 1.667 3.667m6.666 0c.994-.729 1.667-2.095 1.667-3.667 0-1.572-.673-2.938-1.667-3.667M12 12h.01"></path></svg>
+                    <span>Financeiro</span>
+                </a>
+                 <a href="relatorios.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Relatórios</span>
+                </a>
+                <a href="marketing.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>Marketing</span>
+                </a>
+                <a href="ajuda.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0l-3.536 3.536M14.828 9.172l-3.536-3.536m3.536 3.536l3.536 3.536M12 21a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                    <span>Ajuda</span>
+                </a>
+                <a href="configuracao.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-teal-500">
+                <div class="flex items-center">
+                    <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none md:hidden">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h2 class="text-2xl font-semibold text-gray-800">Gerenciamento de Pacientes</h2>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button @click="openAddModal()" class="bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors duration-300 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                        Adicionar Paciente
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="container mx-auto">
+                    <!-- Filters and Search -->
+                    <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
+                                <input x-model="searchQuery" class="w-full pl-10 pr-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-teal-400 focus:ring-teal-300 focus:ring-opacity-40 focus:outline-none focus:ring" type="text" placeholder="Pesquisar por nome ou CPF...">
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button @click="filter = 'todos'" :class="{'bg-teal-500 text-white': filter === 'todos', 'bg-gray-200 text-gray-600 hover:bg-gray-300': filter !== 'todos'}" class="px-4 py-2 text-sm font-medium rounded-md">Todos</button>
+                                <button @click="filter = 'ativo'" :class="{'bg-teal-500 text-white': filter === 'ativo', 'bg-gray-200 text-gray-600 hover:bg-gray-300': filter !== 'ativo'}" class="px-4 py-2 text-sm font-medium rounded-md">Ativos</button>
+                                <button @click="filter = 'inativo'" :class="{'bg-teal-500 text-white': filter === 'inativo', 'bg-gray-200 text-gray-600 hover:bg-gray-300': filter !== 'inativo'}" class="px-4 py-2 text-sm font-medium rounded-md">Inativos</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Patients Table -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr class="text-xs text-gray-600 uppercase">
+                                    <th class="py-3 px-6">Nome</th>
+                                    <th class="py-3 px-6 hidden md:table-cell">CPF</th>
+                                    <th class="py-3 px-6 hidden lg:table-cell">Última Consulta</th>
+                                    <th class="py-3 px-6">Status</th>
+                                    <th class="py-3 px-6 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <template x-for="patient in filteredPatients" :key="patient.id">
+                                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="py-4 px-6 font-medium" x-text="patient.name"></td>
+                                        <td class="py-4 px-6 hidden md:table-cell" x-text="patient.cpf"></td>
+                                        <td class="py-4 px-6 hidden lg:table-cell" x-text="patient.last_visit"></td>
+                                        <td class="py-4 px-6">
+                                            <span :class="patient.status === 'ativo' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'" class="px-2 py-1 text-xs font-semibold rounded-full" x-text="patient.status"></span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">
+                                            <div class="flex item-center justify-center">
+                                                <button @click="openViewModal(patient)" class="text-blue-600 hover:text-blue-900 mr-4">Ver Prontuário</button>
+                                                <button @click="openEditModal(patient)" class="w-5 h-5 mr-2 text-gray-500 hover:text-teal-600">
+                                                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                                                </button>
+                                                <button @click="deletePatient(patient.id)" class="w-5 h-5 text-gray-500 hover:text-red-600">
+                                                    <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modals -->
+        <!-- Add Patient Modal -->
+        <div x-show="isAddModalOpen" x-cloak class="fixed inset-0 z-40 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="isAddModalOpen = false" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900">Adicionar Novo Paciente</h3>
+                        <form @submit.prevent="addPatient()" class="mt-4 space-y-4">
+                            <!-- Form fields here -->
+                            <input type="text" x-model="newPatient.name" placeholder="Nome Completo *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="text" x-model="newPatient.cpf" placeholder="CPF *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="date" x-model="newPatient.dob" placeholder="Data de Nascimento *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="text" x-model="newPatient.phone" placeholder="Telefone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 sm:ml-3 sm:w-auto sm:text-sm">Salvar</button>
+                                <button type="button" @click="isAddModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- View Patient Modal -->
+        <div x-show="isViewModalOpen" x-cloak class="fixed inset-0 z-40 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="isViewModalOpen = false" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                        <h3 class="text-xl leading-6 font-bold text-gray-900">Prontuário de <span x-text="selectedPatient.name"></span></h3>
+                        <div class="mt-4 space-y-4 text-sm">
+                            <p><strong>CPF:</strong> <span x-text="selectedPatient.cpf"></span></p>
+                            <p><strong>Data de Nascimento:</strong> <span x-text="selectedPatient.dob"></span></p>
+                            <p><strong>Telefone:</strong> <span x-text="selectedPatient.phone"></span></p>
+                            <p><strong>Última Consulta:</strong> <span x-text="selectedPatient.last_visit"></span></p>
+                            <p><strong>Status:</strong> <span x-text="selectedPatient.status" :class="selectedPatient.status === 'ativo' ? 'text-green-700' : 'text-red-700'"></span></p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="button" @click="isViewModalOpen = false" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:w-auto sm:text-sm">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Patient Modal -->
+        <div x-show="isEditModalOpen" x-cloak class="fixed inset-0 z-40 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="isEditModalOpen = false" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900">Editar Paciente</h3>
+                        <form @submit.prevent="updatePatient()" class="mt-4 space-y-4">
+                            <input type="text" x-model="editData.name" placeholder="Nome Completo *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="text" x-model="editData.cpf" placeholder="CPF *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="date" x-model="editData.dob" placeholder="Data de Nascimento *" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <input type="text" x-model="editData.phone" placeholder="Telefone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                            <select x-model="editData.status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                            </select>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 sm:ml-3 sm:w-auto sm:text-sm">Salvar</button>
+                                <button type="button" @click="isEditModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function patientsPage() {
+            return {
+                sidebarOpen: false,
+                isAddModalOpen: false,
+                isViewModalOpen: false,
+                isEditModalOpen: false,
+                searchQuery: '',
+                filter: 'todos',
+                patients: [
+                    { id: 1, name: 'Ana Clara Silva', cpf: '123.456.789-00', dob: '1989-05-10', phone: '(11) 98765-4321', last_visit: '02/07/2025', status: 'ativo' },
+                    { id: 2, name: 'Bruno Martins', cpf: '234.567.890-11', dob: '1992-11-20', phone: '(21) 91234-5678', last_visit: '28/06/2025', status: 'ativo' },
+                    { id: 3, name: 'Carlos Ferreira', cpf: '345.678.901-22', dob: '1975-01-30', phone: '(31) 95678-1234', last_visit: '15/05/2025', status: 'inativo' },
+                    { id: 4, name: 'Daniela Ribeiro', cpf: '456.789.012-33', dob: '2001-03-15', phone: '(41) 98888-7777', last_visit: '01/07/2025', status: 'ativo' },
+                ],
+                selectedPatient: {},
+                newPatient: { name: '', cpf: '', dob: '', phone: '', status: 'ativo' },
+                editData: {},
+                get filteredPatients() {
+                    return this.patients.filter(p => {
+                        const searchMatch = p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || p.cpf.includes(this.searchQuery);
+                        const filterMatch = (this.filter === 'todos') || (p.status === this.filter);
+                        return searchMatch && filterMatch;
+                    });
+                },
+                openAddModal() {
+                    this.newPatient = { name: '', cpf: '', dob: '', phone: '', status: 'ativo' };
+                    this.isAddModalOpen = true;
+                },
+                addPatient() {
+                    if (this.newPatient.name && this.newPatient.cpf && this.newPatient.dob) {
+                        this.patients.push({ id: Date.now(), ...this.newPatient, last_visit: new Date().toLocaleDateString('pt-BR') });
+                        this.isAddModalOpen = false;
+                    }
+                },
+                openViewModal(patient) {
+                    this.selectedPatient = patient;
+                    this.isViewModalOpen = true;
+                },
+                openEditModal(patient) {
+                    this.editData = { ...patient };
+                    this.isEditModalOpen = true;
+                },
+                updatePatient() {
+                    const index = this.patients.findIndex(p => p.id === this.editData.id);
+                    if (index !== -1) {
+                        this.patients[index] = this.editData;
+                    }
+                    this.isEditModalOpen = false;
+                },
+                deletePatient(id) {
+                    this.patients = this.patients.filter(p => p.id !== id);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
