@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import psycopg2
 from psycopg2 import sql, errors
 from config import Config
@@ -158,6 +158,36 @@ def get_item(item_id):
         if conn:
             cur.close()
             conn.close()
+
+@app.route('/interface')
+def interface():
+    return render_template('index.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('clinicsoft-login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('name')
+    password = data.get('password')
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM items WHERE name = %s AND description = %s", (username, password))
+    user = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if user:
+        return jsonify({"success": True, "redirect": "/dashboard"})
+    else:
+        return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
