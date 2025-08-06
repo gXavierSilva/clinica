@@ -26,7 +26,7 @@ def create_table():
         cur.execute("""
             SELECT EXISTS (
                 SELECT FROM information_schema.tables 
-                WHERE table_name = 'items'
+                WHERE table_name = 'users'
             );
         """)
         table_exists = cur.fetchone()[0]
@@ -34,21 +34,23 @@ def create_table():
         if not table_exists:
             # Cria a tabela se não existir
             cur.execute("""
-                CREATE TABLE items (
+                CREATE TABLE users (
                     id SERIAL PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
-                    description TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    email VARCHAR(255) NOT NULL UNIQUE,
+                    password CHAR(60) NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    is_active BOOLEAN DEFAULT TRUE
                 );
             """)
             conn.commit()
-            print("Tabela 'items' criada com sucesso!")
+            print("Tabela 'users' criada com sucesso!")
         else:
-            print("Tabela 'items' já existe.")
+            print("Tabela 'users' já existe.")
             
     except errors.DuplicateTable:
         conn.rollback()
-        print("Tabela 'items' já existe.")
+        print("Tabela 'users' já existe.")
     except Exception as e:
         print(f"Erro ao criar tabela: {e}")
         conn.rollback()
@@ -63,25 +65,27 @@ create_table()
 @app.route('/')
 def hello():
     return jsonify({"message": "Bem-vindo à API PostgreSQL", 
-                   "status": "Tabela 'items' verificada/criada automaticamente"})
+                   "status": "Tabela 'users' verificada/criada automaticamente"})
 
-# Rota para criar um novo item
-@app.route('/items', methods=['POST'])
-def create_item():
+# Rota para criar um novo usuário
+@app.route('/users', methods=['POST'])
+def create_user():
     data = request.get_json()
-    if not data or 'name' not in data:
-        return jsonify({"error": "Nome do item é obrigatório"}), 400
+    if not data or 'name' not in data or 'email' not in data or 'password' not in data:
+        return jsonify({"error": "As credenciais são obrigatórias."}), 400
         
     name = data.get('name')
-    description = data.get('description', '')
+    email = data.get('email')
+    password = data.get('password')
+    # password = data.get('password', '')
     
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO items (name, description) VALUES (%s, %s) RETURNING id, name, description, created_at",
-            (name, description)
+            "INSERT INTO users (name, email, password) VALUES (%s, %s, %s) RETURNING id, name, email, password, created_at, is_active",
+            (name, email, password)
         )
         new_item = cur.fetchone()
         conn.commit()
@@ -89,8 +93,10 @@ def create_item():
         return jsonify({
             "id": new_item[0],
             "name": new_item[1],
-            "description": new_item[2],
-            "created_at": new_item[3].isoformat()
+            "email": new_item[2],
+            "password": new_item[3],
+            "created_at": new_item[4].isoformat(),
+            "is_active": new_item[5]
         }), 201
         
     except Exception as e:
@@ -102,26 +108,28 @@ def create_item():
             cur.close()
             conn.close()
 
-# Rota para listar todos os itens
-@app.route('/items', methods=['GET'])
-def get_items():
+# Rota para listar todos os usuários
+@app.route('/users', methods=['GET'])
+def get_users():
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT id, name, description, created_at FROM items ORDER BY created_at DESC")
-        items = cur.fetchall()
+        cur.execute("SELECT id, name, email, password, created_at, is_active FROM users ORDER BY created_at DESC")
+        users = cur.fetchall()
         
-        items_list = []
-        for item in items:
-            items_list.append({
-                "id": item[0],
-                "name": item[1],
-                "description": item[2],
-                "created_at": item[3].isoformat()
+        users_list = []
+        for user in users:
+            users_list.append({
+                "id": user[0],
+                "name": user[1],
+                "email": user[2],
+                "password": user[3],
+                "created_at": user[4].isoformat(),
+                "is_active": user[5]
             })
         
-        return jsonify(items_list)
+        return jsonify(users_list)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
@@ -129,28 +137,30 @@ def get_items():
             cur.close()
             conn.close()
 
-# Rota para buscar um item específico
-@app.route('/items/<int:item_id>', methods=['GET'])
-def get_item(item_id):
+# Rota para buscar um usuário específico
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT id, name, description, created_at 
-            FROM items 
+            SELECT id, name, email, password, created_at, is_active 
+            FROM users 
             WHERE id = %s
-        """, (item_id,))
-        item = cur.fetchone()
+        """, (user_id,))
+        user = cur.fetchone()
         
-        if item is None:
-            return jsonify({"error": "Item não encontrado"}), 404
+        if user is None:
+            return jsonify({"error": "Usuário não encontrado"}), 404
         
         return jsonify({
-            "id": item[0],
-            "name": item[1],
-            "description": item[2],
-            "created_at": item[3].isoformat()
+            "id": user[0],
+            "name": user[1],
+            "email": user[2],
+            "password": user[3],
+            "created_at": user[4].isoformat(),
+            "is_active": user[5]
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -159,27 +169,31 @@ def get_item(item_id):
             cur.close()
             conn.close()
 
-@app.route('/interface')
-def interface():
-    return render_template('index.html')
+# Renderiza página de registro
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
+# Renderiza página de dashboard
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
+# Renderiza página de login
 @app.route('/login', methods=['GET'])
 def login_page():
     return render_template('clinicsoft-login.html')
 
+# Consulta o banco de dados buscando um usuário
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    username = data.get('name')
+    email = data.get('email')
     password = data.get('password')
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM items WHERE name = %s AND description = %s", (username, password))
+    cur.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
     user = cur.fetchone()
     cur.close()
     conn.close()
