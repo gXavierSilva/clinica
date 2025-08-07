@@ -174,11 +174,6 @@ def get_user(user_id):
 def register():
     return render_template('register.html')
 
-# Renderiza página de dashboard
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
 # Renderiza página de login
 @app.route('/login', methods=['GET'])
 def login_page():
@@ -202,6 +197,43 @@ def login():
         return jsonify({"success": True, "redirect": "/dashboard"})
     else:
         return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
+
+# Rotas de dashboard
+@app.route('/dashboard', methods=['GET'])
+def dashboard_page():
+    return render_template('dashboard.html')
+
+@app.route('/schedule', methods=['GET'])
+def schedule_page():
+    return render_template('agendadash.html')
+
+@app.route('/patients', methods=['GET'])
+def patients_page():
+    return render_template('pacientes.html')
+
+@app.route('/financial', methods=['GET'])
+def financial_page():
+    return render_template('financeiro.html')
+
+@app.route('/reports', methods=['GET'])
+def reports_page():
+    return render_template('relatorios.html')
+
+@app.route('/marketing', methods=['GET'])
+def marketing_page():
+    return render_template('marketing.html')
+
+@app.route('/help', methods=['GET'])
+def help_page():
+    return render_template('ajuda.html')
+
+@app.route('/settings', methods=['GET'])
+def settings_page():
+    return render_template('configuracao.html')
+
+@app.route('/myprofile', methods=['GET'])
+def myprofile_page():
+    return render_template('meuperfil.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
