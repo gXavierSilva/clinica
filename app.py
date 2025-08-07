@@ -203,9 +203,9 @@ def login():
 def dashboard_page():
     return render_template('dashboard.html')
 
-@app.route('/schedule', methods=['GET'])
-def schedule_page():
-    return render_template('agendadash.html')
+# @app.route('/schedule', methods=['GET'])
+# def schedule_page():
+#     return render_template('agendadash.html')
 
 @app.route('/patients', methods=['GET'])
 def patients_page():
